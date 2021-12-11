@@ -1,0 +1,4 @@
+.env
+google_credentials.json
+.terraform
+*.tfstate*
