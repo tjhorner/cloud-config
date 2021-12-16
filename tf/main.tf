@@ -1,6 +1,5 @@
 data "google_compute_image" "nixos" {
-  // project = "nixos-cloud"
-  name = "packer-1639179865"
+  name = var.gcp_base_image
 }
 
 resource "google_service_account" "default" {
@@ -23,21 +22,22 @@ resource "google_compute_firewall" "allow_ssh" {
   }
 }
 
-// resource "google_compute_firewall" "allow_nomad" {
-//   name = "allow-nomad-web-ui"
-//   network = google_compute_network.nixos_network.self_link
-//   source_ranges = [ "0.0.0.0/0" ]
+resource "google_compute_firewall" "allow_nomad" {
+  name = "allow-nomad-web-ui"
+  network = google_compute_network.nixos_network.self_link
+  source_ranges = [ "0.0.0.0/0" ]
 
-//   allow {
-//     protocol = "tcp"
-//     ports = [ "4646" ]
-//   }
-// }
+  allow {
+    protocol = "tcp"
+    ports = [ "4646" ]
+  }
+}
 
 resource "google_compute_instance" "nixos_vm" {
   name = "nixos-test"
   machine_type = var.gcp_machine_type
   allow_stopping_for_update = true
+  metadata_startup_script = file("./scripts/nixconfig.sh")
 
   metadata = {
     enable-oslogin = "TRUE"
