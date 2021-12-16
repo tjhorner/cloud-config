@@ -20,3 +20,13 @@ variable "gcp_machine_type" {
 variable "gcp_base_image" {
   type = string
 }
+
+variable "consul_instances" {
+  type = number
+  default = 1
+}
+
+variable "nomad_instances" {
+  type = number
+  default = 2
+}
