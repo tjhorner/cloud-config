@@ -12,3 +12,8 @@ provider "google" {
   region = var.gcp_region
   zone = var.gcp_zone
 }
+
+provider "nomad" {
+  address = "http://${google_compute_instance.nomad_server[0].network_interface[0].access_config[0].nat_ip}:4646"
+  region = "global"
+}

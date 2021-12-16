@@ -20,6 +20,17 @@ resource "google_compute_firewall" "allow_internal" {
   }
 }
 
+resource "google_compute_firewall" "allow_web" {
+  name = "allow-web"
+  network = google_compute_network.nixos_network.self_link
+  source_ranges = [ "0.0.0.0/0" ]
+
+  allow {
+    protocol = "tcp"
+    ports = [ "80", "443" ]
+  }
+}
+
 resource "google_compute_firewall" "allow_ssh" {
   name = "allow-ssh"
   network = google_compute_network.nixos_network.self_link

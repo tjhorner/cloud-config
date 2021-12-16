@@ -28,5 +28,5 @@ variable "consul_instances" {
 
 variable "nomad_instances" {
   type = number
-  default = 2
+  default = 1
 }
